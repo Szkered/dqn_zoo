@@ -30,22 +30,24 @@ COPY ./dqn_zoo /workspace/dqn_zoo
 # List files in current directory.
 RUN find .
 
-# Run tests on CPU.
-ARG JAX_PLATFORM_NAME=cpu
-RUN python3 -m dqn_zoo.gym_atari_test
-RUN python3 -m dqn_zoo.networks_test
-RUN python3 -m dqn_zoo.parts_test
-RUN python3 -m dqn_zoo.replay_test
-RUN python3 -m dqn_zoo.c51.run_atari_test
-RUN python3 -m dqn_zoo.double_q.run_atari_test
-RUN python3 -m dqn_zoo.dqn.run_atari_test
-RUN python3 -m dqn_zoo.iqn.run_atari_test
-RUN python3 -m dqn_zoo.prioritized.run_atari_test
-RUN python3 -m dqn_zoo.qrdqn.run_atari_test
-RUN python3 -m dqn_zoo.rainbow.run_atari_test
+RUN apt-get install -y sudo openssh-server
+
+
+# # Run tests on CPU.
+# ARG JAX_PLATFORM_NAME=cpu
+# RUN python3 -m dqn_zoo.gym_atari_test
+# RUN python3 -m dqn_zoo.networks_test
+# RUN python3 -m dqn_zoo.parts_test
+# RUN python3 -m dqn_zoo.replay_test
+# RUN python3 -m dqn_zoo.c51.run_atari_test
+# RUN python3 -m dqn_zoo.double_q.run_atari_test
+# RUN python3 -m dqn_zoo.dqn.run_atari_test
+# RUN python3 -m dqn_zoo.iqn.run_atari_test
+# RUN python3 -m dqn_zoo.prioritized.run_atari_test
+# RUN python3 -m dqn_zoo.qrdqn.run_atari_test
+# RUN python3 -m dqn_zoo.rainbow.run_atari_test
 
 # Allow running container as an executable. E.g. to run DQN:
 # docker run --gpus all --name dqn_zoo_dqn dqn_zoo:latest \
 #     -m dqn_zoo.dqn.run_atari --environment_name=pong
-ENTRYPOINT ["python3"]
-
+# ENTRYPOINT ["python3"]
