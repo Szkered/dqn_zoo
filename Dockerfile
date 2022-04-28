@@ -1,17 +1,27 @@
 # Parent image.
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+# FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04
+
+
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN sed -i "s/archive.ubuntu.com/mirror.0x.sg/g" /etc/apt/sources.list
 
 RUN apt-get update --fix-missing
 
 # Install dependencies for snappy.
 RUN apt-get install -y libsnappy-dev=1.1.7-1
+# RUN apt-get install -y libsnappy-dev
 
 # Install git to clone RLax repository.
 RUN apt-get install -y git
 
 # Install Python 3, pip, setuptools.
-RUN apt-get install -y python3=3.6.7-1~18.04 python3-pip python3-setuptools
-RUN pip3 install --upgrade pip==20.1.1 setuptools==47.3.1
+# RUN apt-get install -y python3=3.6 python3-pip python3-setuptools
+# RUN pip3 install --upgrade pip==20.1.1 setuptools==47.3.1
+RUN apt-get install -y python3.6 python3-pip python3-setuptools
+RUN pip3 install --upgrade pip setuptools
 
 WORKDIR /workspace
 
@@ -19,7 +29,8 @@ WORKDIR /workspace
 COPY ./docker_requirements.txt /workspace/
 
 # Install Python dependencies.
-RUN pip3 install -r docker_requirements.txt
+RUN pip3 install --upgrade jax jaxlib==0.1.69+cuda111 -f https://storage.googleapis.com/jax-releases/jax_releases.html
+RUN pip3 install --index-url=http://pypi.ai.seacloud.garenanow.com/root/dev/ --trusted-host=pypi.ai.seacloud.garenanow.com -r docker_requirements.txt
 
 # List Python dependencies.
 RUN pip3 freeze
@@ -33,9 +44,9 @@ RUN find .
 RUN apt-get install -y sudo openssh-server
 
 
-# # Run tests on CPU.
-# ARG JAX_PLATFORM_NAME=cpu
-# RUN python3 -m dqn_zoo.gym_atari_test
+# Run tests on CPU.
+ARG JAX_PLATFORM_NAME=cpu
+RUN python3 -m dqn_zoo.gym_atari_test
 # RUN python3 -m dqn_zoo.networks_test
 # RUN python3 -m dqn_zoo.parts_test
 # RUN python3 -m dqn_zoo.replay_test

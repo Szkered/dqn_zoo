@@ -10,8 +10,8 @@ optax==0.0.1
 rlax @ git+https://github.com/deepmind/rlax.git@870cba1ea8ad36725f4f3a790846298657b6fd4b
 
 # JAX libraries with GPU support.
-jax==0.1.72
-jaxlib @ https://storage.googleapis.com/jax-releases/cuda101/jaxlib-0.1.49-cp36-none-linux_x86_64.whl
+# jax==0.1.72
+# jaxlib @ https://storage.googleapis.com/jax-releases/cuda101/jaxlib-0.1.49-cp36-none-linux_x86_64.whl
 
 # ALE and Gym libraries.
 atari-py==0.2.6
